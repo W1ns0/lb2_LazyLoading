@@ -1,30 +1,14 @@
-﻿//В модели Employee навигационные свойства объявлены как virtual
-//В конфигурации контекста используется вызов:optionsBuilder.UseLazyLoadingProxies()
-
-using pr2LazyLoading;
-using pr2LazyLoading.Models;
-
-class Program
+﻿class Program
 {
-	static void Main()
-	{
-		//создаём экземпляр контекста бд для работы с данными
-		using (DbCompanyContext context = new DbCompanyContext())
-		{
-			// Получение списка сотрудников в список employees
-			List<Employee> employees = context.Employees.ToList();
+    static void Main()
+    {
+        using var db = new ApplicationContext();
 
-			Console.WriteLine("Загрузка данных с помощью Lazy loading:");
+        var employees = db.Employees.ToList();
 
-			//проходимся по каждому сотруднику
-			foreach (Employee employee in employees)
-			{
-				// автоматическая загрузка этих связанных записей.
-				Console.WriteLine($"-Сотрудник: {employee.Name}");
-				Console.WriteLine($"  -Должность: {employee.Position?.Name}");
-				Console.WriteLine($"  -Отдел: {employee.Department?.Name}");
-				Console.WriteLine(); 
-			}
-		}
-	}
+        foreach (var e in employees)
+        {
+            Console.WriteLine($"{e.name} - {e.Position?.title} - {e.Position?.Department?.name}");
+        }
+    }
 }
