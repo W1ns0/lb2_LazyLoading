@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using pr2LazyLoading.Models;
 
 namespace pr2LazyLoading;
 
@@ -22,7 +21,6 @@ public partial class DbCompanyContext : DbContext
     public virtual DbSet<Position> Positions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=lb2_Company;Username=postgres;Password=1111")
          .UseLazyLoadingProxies(); // Включение ленивой загрузки
 
@@ -49,12 +47,12 @@ public partial class DbCompanyContext : DbContext
             entity.Property(e => e.IdPosition).HasColumnName("id_position");
             entity.Property(e => e.Name).HasColumnName("name");
 
-            entity.HasOne(d => d.IdDepartmentNavigation).WithMany(p => p.Employees)
+            entity.HasOne(d => d.Department).WithMany(p => p.Employees)
                 .HasForeignKey(d => d.IdDepartment)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_employess_departments");
 
-            entity.HasOne(d => d.IdPositionNavigation).WithMany(p => p.Employees)
+            entity.HasOne(d => d.Position).WithMany(p => p.Employees)
                 .HasForeignKey(d => d.IdPosition)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_employess_positions");

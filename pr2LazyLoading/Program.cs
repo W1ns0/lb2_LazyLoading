@@ -2,6 +2,7 @@
 //В конфигурации контекста используется вызов:optionsBuilder.UseLazyLoadingProxies()
 
 using pr2LazyLoading;
+using pr2LazyLoading.Models;
 
 class Program
 {
@@ -19,9 +20,9 @@ class Program
 			foreach (Employee employee in employees)
 			{
 				// автоматическая загрузка этих связанных записей.
-				Console.WriteLine($"Сотрудник: {employee.Name}");
-				Console.WriteLine($"Должность: {employee.IdPositionNavigation?.Name}");
-				Console.WriteLine($"Отдел: {employee.IdDepartmentNavigation?.Name}");
+				Console.WriteLine($"-Сотрудник: {employee.Name}");
+				Console.WriteLine($"  -Должность: {employee.Position?.Name}");
+				Console.WriteLine($"  -Отдел: {employee.Department?.Name}");
 				Console.WriteLine(); 
 			}
 		}

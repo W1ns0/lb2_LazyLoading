@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace pr2LazyLoading;
+namespace pr2LazyLoading.Models;
 
 public partial class Position
 {
